@@ -6,13 +6,13 @@ import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
- * 测试粘包：还原问题
+ * 测试粘包：解决问题
  */
-public class TimeClientHandlerTest2 extends ChannelHandlerAdapter {
+public class TimeClientHandlerTest3Resolve extends ChannelHandlerAdapter {
     private byte[] req;
     private int counter;
 
-    public TimeClientHandlerTest2() {
+    public TimeClientHandlerTest3Resolve() {
         req = ("QUERY TIME ORDER"+System.getProperty("line.separator")).getBytes();
     }
 
@@ -37,11 +37,7 @@ public class TimeClientHandlerTest2 extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf buf = (ByteBuf) msg;
-        byte[] bytes = new byte[buf.readableBytes()];
-        buf.writeBytes(bytes);
-
-        String body = new String(bytes, "UTF-8");
+        String body = (String)msg;
         System.out.println("the body :"+body+"; counter = "+counter++);
     }
 }
